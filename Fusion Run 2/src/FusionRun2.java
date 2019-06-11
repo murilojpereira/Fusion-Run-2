@@ -36,9 +36,11 @@ public class FusionRun2 extends Application{
 		//Start scene
 		Group layout = new Group();
 		start = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT);
-		FancyButton button = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2, 100, 60, "button", Color.BLUE, "Click", Color.WHITE);
-		button.setOnMouseClicked(e -> stage.setScene(game)); button.ButtonText.setOnMouseClicked(e -> stage.setScene(game));
-		layout.getChildren().addAll(button, button.ButtonText);
+		FancyButton gameButton = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2, 100, 60, "gameButton", Color.BLUE, "Click", Color.WHITE);
+		gameButton.setOnMouseClicked(e -> stage.setScene(game)); gameButton.ButtonText.setOnMouseClicked(e -> stage.setScene(game));
+		FancyButton customizeButton = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2 + 100, 100, 60, "cutomizeButton", Color.RED, "Customize", Color.WHITE);
+		customizeButton.setOnMouseClicked(e -> stage.setScene(customize)); gameButton.ButtonText.setOnMouseClicked(e -> stage.setScene(customize));
+		layout.getChildren().addAll(gameButton, gameButton.ButtonText, customizeButton, customizeButton.ButtonText);
 		
 		//Character Select scene
 		Group customizeLayout = new Group();
@@ -60,6 +62,7 @@ public class FusionRun2 extends Application{
 		//Starts Timer
 		timer = new GameTimer();
 		timer.start();
+		
 		
 		//Shows stage
 		stage.setScene(start);
@@ -86,17 +89,26 @@ public class FusionRun2 extends Application{
 	
     private void handleKeyPressed(KeyEvent event) {
         KeyCode code = event.getCode();
-
-        if (code == KeyCode.W) {
-            player.moveUp(playerSpeed);
-        } if (code == KeyCode.S) {
-            player.moveDown(playerSpeed);
-        } if (code == KeyCode.A) {
-        	player.moveLeft(playerSpeed);
-        } if (code == KeyCode.D) {
-        	player.moveRight(playerSpeed);
-        }
-        else if (code == KeyCode.SPACE) {
+        
+        //int move_x=0;
+        int move_right = code == KeyCode.D? 1:0;
+        int move_left = code == KeyCode.A? 1:0;
+        int move_up = code == KeyCode.W? 1:0;
+        int move_down = code == KeyCode.S? 1:0;
+        
+        //if (code == KeyCode.D) move_x=1;
+        player.move(move_right-move_left,move_down-move_up);
+        
+//        if (code == KeyCode.W) {
+//            player.moveUp(playerSpeed);
+//        } if (code == KeyCode.S) {
+//            player.moveDown(playerSpeed);
+//        } if (code == KeyCode.A) {
+//        	player.moveLeft(playerSpeed);
+//        } if (code == KeyCode.D) {
+//        	player.moveRight(playerSpeed);
+//        }
+         if (code == KeyCode.SPACE) {
             // pause the game
             timer.stop();;
         }// else if (code == KeyCode.ENTER) {
