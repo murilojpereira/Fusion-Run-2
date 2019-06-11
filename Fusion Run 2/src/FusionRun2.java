@@ -1,13 +1,19 @@
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class FusionRun2 extends Application{
@@ -33,29 +39,65 @@ public class FusionRun2 extends Application{
 		
 		stage.setTitle("Fusion Run 2");
 		
-		//Start scene
+		
+		
+		///////////////
+		//START SCENE//
+		///////////////
 		Group layout = new Group();
 		start = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
 		FancyButton gameButton = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2, 100, 60, "gameButton", Color.BLUE, "Click", Color.WHITE);
 		gameButton.setOnMouseClicked(e -> stage.setScene(game)); gameButton.ButtonText.setOnMouseClicked(e -> stage.setScene(game));
+		
 		FancyButton customizeButton = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2 + 100, 100, 60, "cutomizeButton", Color.RED, "Customize", Color.WHITE);
 		customizeButton.setOnMouseClicked(e -> stage.setScene(customize)); gameButton.ButtonText.setOnMouseClicked(e -> stage.setScene(customize));
+		
 		layout.getChildren().addAll(gameButton, gameButton.ButtonText, customizeButton, customizeButton.ButtonText);
 		
-		//Character Select scene
+		
+		
+		///////////////////////
+		//CUSTOMIZATION SCENE//
+		///////////////////////
 		Group customizeLayout = new Group();
 		customize = new Scene(customizeLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
-		demo = new Player(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2-50, 100, 100, "demo", Color.ALICEBLUE);
-		FancyButton blue = new FancyButton(SCREEN_WIDTH/2-40, SCREEN_HEIGHT/2 + 100, 80, 40, "blue", Color.BLUE, "Blue", Color.ALICEBLUE);
-		blue.setOnMouseClicked(e -> demo.setFill(Color.BLUE)); blue.ButtonText.setOnMouseClicked(e -> demo.setFill(Color.BLUE));
-		customizeLayout.getChildren().addAll(demo, blue, blue.ButtonText);
 		
-		//Game scene
+		Rectangle demo = new Rectangle(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2-50, 100, 100);
+		demo.setFill(Color.ALICEBLUE);//(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2-50, 100, 100, "demo", Color.ALICEBLUE)
+		
+		//Player color picker
+		ColorPicker colorPicker = new ColorPicker(Color.ALICEBLUE);
+		colorPicker.setLayoutX(SCREEN_WIDTH/2-63);
+		colorPicker.setLayoutY(demo.getX()+50);
+		colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                player.setFill(colorPicker.getValue());
+                demo.setFill(colorPicker.getValue());
+            }
+        });
+		
+		//Back button
+		Button backButton = new Button("Back");
+		backButton.setLayoutX(20);
+		backButton.setLayoutY(20);
+		backButton.setOnAction(e -> stage.setScene(start));
+		
+		//adds to layout
+		customizeLayout.getChildren().addAll(demo, colorPicker, backButton);
+		
+		
+		
+		//////////////
+		//GAME SCENE//
+		//////////////
 		Group gameLayout = new Group();
 		game = new Scene(gameLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 		game.setFill(Color.DIMGRAY);
 		player = new Player(40, 40, 10, 10, "player", Color.ALICEBLUE);
 		gameLayout.getChildren().addAll(player);
+		
 		//Game Movement
 		game.setOnKeyPressed(e -> handleKeyPressed(e));
 		
