@@ -12,25 +12,25 @@ public class Player extends Rectangle {
 		
 		this.type = type;
 		
-		setTranslateX(x);
-		setTranslateY(y);
+		setX(x);
+		setY(y);
 		
 	}
 	
 	void moveLeft(int speed) {
-		setTranslateX(getTranslateX()-speed);
+		setX(getX()-speed);
 	}
 	
 	void moveRight(int speed) {
-		setTranslateX(getTranslateX()+speed);	
+		setX(getX()+speed);	
 	}
 	
 	void moveUp(int speed) {
-		setTranslateY(getTranslateY()-speed);
+		setY(getY()-speed);
 	}
 	
 	void moveDown(int speed) {
-		setTranslateY(getTranslateY()+speed);
+		setY(getY()+speed);
 	}
 	
 }
