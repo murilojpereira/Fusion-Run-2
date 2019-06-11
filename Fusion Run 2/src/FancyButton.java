@@ -22,7 +22,7 @@ public class FancyButton extends Rectangle {
 		
 		ButtonText = new Text(text);
 		ButtonText.setFill(textColor);
-		ButtonText.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		ButtonText.setFont(Font.font("century gothic", FontWeight.BOLD, FontPosture.REGULAR, 20));
 		ButtonText.setX(x+w/4);
 		ButtonText.setY(y+h/2);
 		
