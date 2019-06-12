@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -29,7 +31,6 @@ public class FusionRun2 extends Application{
 	
 	Player player;
 	int direction;
-	int playerSpeed = 5;
 	int x_velocity = 0;
 	int Y_velocity = 0;
 	
@@ -47,16 +48,20 @@ public class FusionRun2 extends Application{
 		///////////////
 		//START SCENE//
 		///////////////
-		Group layout = new Group();
+		VBox layout = new VBox();
 		start = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
-		FancyButton gameButton = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2, 100, 60, "gameButton", Color.BLUE, "Click", Color.WHITE);
-		gameButton.setOnMouseClicked(e -> stage.setScene(game)); gameButton.ButtonText.setOnMouseClicked(e -> stage.setScene(game));
+		Button gameButton = new Button("Start");
+		gameButton.setOnMouseClicked(e -> stage.setScene(game));
+		gameButton.setAlignment(Pos.CENTER);
 		
-		FancyButton customizeButton = new FancyButton(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2 + 100, 100, 60, "cutomizeButton", Color.RED, "Customize", Color.WHITE);
-		customizeButton.setOnMouseClicked(e -> stage.setScene(customize)); gameButton.ButtonText.setOnMouseClicked(e -> stage.setScene(customize));
+		Button customizeButton = new Button("Customize");
+		customizeButton.setOnMouseClicked(e -> stage.setScene(customize));
+		customizeButton.setAlignment(Pos.CENTER);
 		
-		layout.getChildren().addAll(gameButton, gameButton.ButtonText, customizeButton, customizeButton.ButtonText);
+		layout.setAlignment(Pos.CENTER);
+		layout.setSpacing(20);
+		layout.getChildren().addAll(gameButton, customizeButton);
 		
 		
 		
@@ -135,9 +140,6 @@ public class FusionRun2 extends Application{
 			} if (playerBounds.getMaxX() >= SCREEN_WIDTH) {
 				player.x_velocity = 0;
 				player.setX(SCREEN_WIDTH-11);
-			}
-			else {
-				playerSpeed = 5;
 			}
 			
 			player.setX(player.getX()+player.x_velocity);

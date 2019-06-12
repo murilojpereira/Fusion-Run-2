@@ -16,7 +16,7 @@ public class Player extends Rectangle {
 		super(w, h, color);
 		
 		this.type = type;
-		this.speed = 5;
+		this.speed = 7;
 		this.x_direction = 0;
 		this.x_velocity = speed * x_direction;
 		this.y_direction = 0;
