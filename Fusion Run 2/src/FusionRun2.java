@@ -62,6 +62,7 @@ public class FusionRun2 extends Application{
 		///////////////////////
 		Group customizeLayout = new Group();
 		customize = new Scene(customizeLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
+		customize.setFill(Color.DIMGRAY);
 		
 		Rectangle demo = new Rectangle(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2-50, 100, 100);
 		demo.setFill(Color.ALICEBLUE);//(SCREEN_WIDTH/2-50, SCREEN_HEIGHT/2-50, 100, 100, "demo", Color.ALICEBLUE)
