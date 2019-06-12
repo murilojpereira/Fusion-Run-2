@@ -28,7 +28,10 @@ public class FusionRun2 extends Application{
 	Player demo;
 	
 	Player player;
+	int direction;
 	int playerSpeed = 5;
+	int x_velocity = 0;
+	int Y_velocity = 0;
 	
 	int obsSpeed = 5;
 	
@@ -101,6 +104,7 @@ public class FusionRun2 extends Application{
 		
 		//Game Movement
 		game.setOnKeyPressed(e -> handleKeyPressed(e));
+		game.setOnKeyReleased(e -> handleKeyReleased(e));
 		
 		//Starts Timer
 		timer = new GameTimer();
@@ -120,11 +124,24 @@ public class FusionRun2 extends Application{
 			Bounds playerBounds = player.getBoundsInLocal();
 			
 			if (playerBounds.getMinY() <= 0) {
-				playerSpeed = 0;
+				player.y_velocity = 0;
 				player.setY(1);
-			} else {
+			} if (playerBounds.getMaxY() >= SCREEN_HEIGHT) {
+				player.y_velocity = 0;
+				player.setY(SCREEN_HEIGHT - 11);
+			} if (playerBounds.getMinX() <= 0) {
+				player.x_velocity = 0;
+				player.setX(1);
+			} if (playerBounds.getMaxX() >= SCREEN_WIDTH) {
+				player.x_velocity = 0;
+				player.setX(SCREEN_WIDTH-11);
+			}
+			else {
 				playerSpeed = 5;
 			}
+			
+			player.setX(player.getX()+player.x_velocity);
+			player.setY(player.getY()+player.y_velocity);
 			
 		}
 		
@@ -133,32 +150,41 @@ public class FusionRun2 extends Application{
     private void handleKeyPressed(KeyEvent event) {
         KeyCode code = event.getCode();
         
-        //int move_x=0;
-        int move_right = code == KeyCode.D? 1:0;
-        int move_left = code == KeyCode.A? 1:0;
-        int move_up = code == KeyCode.W? 1:0;
-        int move_down = code == KeyCode.S? 1:0;
-        
-        //if (code == KeyCode.D) move_x=1;
-        player.move(move_right-move_left,move_down-move_up);
-        
-//        if (code == KeyCode.W) {
-//            player.moveUp(playerSpeed);
-//        } if (code == KeyCode.S) {
-//            player.moveDown(playerSpeed);
-//        } if (code == KeyCode.A) {
-//        	player.moveLeft(playerSpeed);
-//        } if (code == KeyCode.D) {
-//        	player.moveRight(playerSpeed);
-//        }
-         if (code == KeyCode.SPACE) {
+        //Movement
+        if (code == KeyCode.W) {
+            player.y_direction = -1;
+            player.y_velocity = player.speed * player.y_direction;
+        } if (code == KeyCode.S) {
+            player.y_direction = 1;
+            player.y_velocity = player.speed * player.y_direction;
+        } if (code == KeyCode.A) {
+        	player.x_direction = -1;
+        	player.x_velocity = player.speed * player.x_direction;
+        } if (code == KeyCode.D) {
+        	player.x_direction = 1;
+        	player.x_velocity = player.speed * player.x_direction;
+        }
+         
+        //Pausing
+        if (code == KeyCode.SPACE) {
             // pause the game
-            timer.stop();;
-        }// else if (code == KeyCode.ENTER) {
-            // restart the game
-          //  timer.start();
-        //}
+            timer.stop();
+        }if (code == KeyCode.ENTER) {
+            //restart the game
+            timer.start();
+        }
 
+    }
+    
+    private void handleKeyReleased(KeyEvent event) {
+    	KeyCode code = event.getCode();
+    	
+    	if (code == KeyCode.W || code == KeyCode.S) {
+    		player.y_velocity = 0;
+    	} if (code == KeyCode.A || code == KeyCode.D) {
+    		player.x_velocity = 0;
+    	} 
+    	
     }
 	
 	public static void main(String[] args){
