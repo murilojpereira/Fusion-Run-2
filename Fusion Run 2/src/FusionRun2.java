@@ -35,6 +35,9 @@ public class FusionRun2 extends Application{
 	int Y_velocity = 0;
 	
 	int obsSpeed = 5;
+
+	Group gameLayout = new Group();
+
 	
 	//StartScreen
 	
@@ -101,11 +104,13 @@ public class FusionRun2 extends Application{
 		//////////////
 		//GAME SCENE//
 		//////////////
-		Group gameLayout = new Group();
 		game = new Scene(gameLayout, SCREEN_WIDTH, SCREEN_HEIGHT);
 		game.setFill(Color.DIMGRAY);
 		player = new Player(40, 40, 10, 10, "player", Color.ALICEBLUE);
 		gameLayout.getChildren().addAll(player);
+		
+		//Obstacle obstacle = new Obstacle(5, 5, 5, Color.ALICEBLUE);
+		createObstacles(5, 1);
 		
 		//Game Movement
 		game.setOnKeyPressed(e -> handleKeyPressed(e));
@@ -187,6 +192,24 @@ public class FusionRun2 extends Application{
     		player.x_velocity = 0;
     	} 
     	
+    }
+    
+	void createObstacles(int ammount, int pos) {
+		
+		Obstacle[] obstacles = new Obstacle[ammount];  
+		
+		for (int i = 0; i > ammount; i++) {
+			
+			obstacles[i] = new Obstacle((int) randomNumber(5, SCREEN_WIDTH - 5), 5, 5, Color.RED, 7);
+			gameLayout.getChildren().add(obstacles[i]);
+			
+		}
+		
+	}
+	
+    double randomNumber(int low, int high) {
+        int range = high - low + 1;
+        return Math.random() * range + low;
     }
 	
 	public static void main(String[] args){
